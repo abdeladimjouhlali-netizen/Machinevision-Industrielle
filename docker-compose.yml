@@ -1,0 +1,59 @@
+services:
+  database:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-machines}
+      MYSQL_USER: ${MYSQL_USER:-machines_dev}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-change_this_local_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change_this_local_root_password}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  ml-service:
+    build: ./ml-service
+    environment:
+      MODEL_PATH: /models/modele_demo_machines.keras
+      CLASS_NAMES_PATH: /app/class_names.json
+    volumes:
+      - ./ml-service/models:/models:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  backend:
+    build: ./backend
+    environment:
+      DB_URL: jdbc:mysql://database:3306/${MYSQL_DATABASE:-machines}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USER: ${MYSQL_USER:-machines_dev}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-change_this_local_password}
+      ML_BASE_URL: http://ml-service:8000
+      DOCUMENTS_DIR: /documents
+    volumes:
+      - ./documents:/documents:ro
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+      ml-service:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:

@@ -1,0 +1,27 @@
+# Local credentials and private environment files
+.env
+**/.env
+.env.*
+**/.env.*
+!.env.example
+
+# Dependencies and build output
+**/node_modules/
+**/dist/
+**/target/
+backend/.maven-repo/
+frontend/.npm-cache/
+ml-service/.venv/
+ml-service/.pip-cache/
+ml-service/.tmp/
+
+# Python cache
+**/__pycache__/
+*.py[cod]
+
+# Local datasets and third-party reference imagery; verify rights before publishing
+/data/images/
+/documents/references/
+
+# Legacy model format
+ml-service/models/*.h5

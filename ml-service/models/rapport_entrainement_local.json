@@ -1,0 +1,20 @@
+{
+  "model": "modele_machines_local.keras",
+  "source_model_preserved": "modele_demo_machines.keras",
+  "classes": [
+    "compresseur",
+    "convoyeur",
+    "pompe"
+  ],
+  "images_per_class": {
+    "compresseur": 5,
+    "convoyeur": 9,
+    "pompe": 4
+  },
+  "train_images": 15,
+  "validation_images": 3,
+  "epochs_run": 7,
+  "final_validation_loss": 0.23518605530261993,
+  "final_validation_accuracy": 1.0,
+  "warning": "Petit jeu de données de démonstration : une seule image par classe est réservée à la validation. Cette mesure ne prouve pas une bonne reconnaissance de nouvelles machines."
+}

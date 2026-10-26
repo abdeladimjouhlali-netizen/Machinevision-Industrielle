@@ -1,0 +1,4 @@
+Exportez ici le modèle TensorFlow/Keras depuis Colab sous le nom :
+modele_demo_machines.keras
+
+Ne versionnez pas ce gros fichier dans Git. Le dossier models est ignoré par Git.
