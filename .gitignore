@@ -9,6 +9,7 @@
 **/node_modules/
 **/dist/
 **/target/
+tmp/
 backend/.maven-repo/
 frontend/.npm-cache/
 ml-service/.venv/

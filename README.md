@@ -36,7 +36,7 @@ CREATE USER IF NOT EXISTS 'machines_dev'@'localhost'
 GRANT ALL PRIVILEGES ON machines.* TO 'machines_dev'@'localhost';
 ```
 
-Puis ouvre et exécute `database/init.sql`. Pour charger l'actif de démonstration du convoyeur et sa fiche provisoire, exécute aussi `database/seed_demo.sql`.
+Puis ouvre et exécute `database/init.sql`. Pour charger les trois actifs de démonstration et leurs fiches provisoires (pompe, compresseur et convoyeur), exécute aussi `database/seed_demo.sql`. Le script peut être relancé sans créer de doublons.
 
 ### 2. Démarrer le service ML
 
@@ -92,7 +92,7 @@ Pour réentraîner le modèle, range des images dont tu as le droit d'utiliser s
 python ml-service/train_local.py
 ```
 
-Pour relier une vraie fiche, utilise la marque et le modèle lus sur la plaque. Place les documents vérifiés dans `documents/fiches_techniques/` ou `documents/manuels_officiels/`, puis enregistre leur chemin dans la table `equipment`. Le fichier `database/seed_demo.sql` ne contient qu'un exemple provisoire.
+Les trois PDF `DEMO-*.pdf` sont des fiches descriptives provisoires créées à partir des photos. Ils ne sont pas des fiches constructeur ni des manuels d'utilisation ou de sécurité. Pour relier une vraie documentation, utilise la marque et le modèle lus sur la plaque. Place les documents vérifiés dans `documents/fiches_techniques/` ou `documents/manuels_officiels/`, puis enregistre leur chemin dans la table `equipment`.
 
 ## Préparer une publication GitHub
 
