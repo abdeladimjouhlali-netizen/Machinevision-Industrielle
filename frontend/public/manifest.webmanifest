@@ -1,0 +1,27 @@
+{
+  "id": "/",
+  "name": "MachineVision - Machines industrielles",
+  "short_name": "MachineVision",
+  "description": "Identifie une machine industrielle et retrouve ses fiches techniques.",
+  "lang": "fr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7fafc",
+  "theme_color": "#102b46",
+  "icons": [
+    {
+      "src": "/icons/machinevision-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/machinevision-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -84,6 +84,33 @@ Connecte le téléphone et le PC au même Wi-Fi. Sur le PC, exécute `ipconfig` 
 
 Le PC doit rester allumé et les quatre services doivent continuer à fonctionner. Si la page ne s'ouvre pas, autorise Node.js/Vite sur le réseau privé dans le pare-feu Windows. Cette méthode sert uniquement sur le réseau local, pas depuis Internet.
 
+### Accès privé depuis un autre Wi-Fi et installation sur le téléphone
+
+Pour accéder à l'application hors du Wi-Fi local sans l'exposer à tout Internet, utilise Tailscale sur le PC et le téléphone :
+
+1. Installe Tailscale sur les deux appareils et connecte-les au même compte personnel.
+2. Garde MySQL, le service ML, Spring Boot et Vite démarrés sur le PC. Le PC doit rester allumé et ne pas se mettre en veille.
+3. Dans PowerShell, exécute `tailscale status` et relève le nom DNS complet de ce PC, qui se termine par `.ts.net`.
+4. Redémarre Vite en autorisant uniquement ce nom d'hôte :
+
+```powershell
+$env:MACHINEVISION_ALLOWED_HOST = "NOM-DNS-DU-PC.ts.net"
+cd frontend
+npm.cmd run dev -- --host 0.0.0.0
+```
+
+5. Dans PowerShell, publie le port Vite uniquement sur le réseau Tailscale et récupère l'adresse HTTPS affichée :
+
+```powershell
+tailscale serve --bg 5173
+```
+
+Tailscale Serve réserve cette adresse aux appareils du même réseau privé. N'utilise pas Tailscale Funnel pour ce projet. Si Tailscale demande d'activer les certificats HTTPS, suis sa page de configuration.
+
+6. Sur le téléphone, connecte aussi Tailscale, ouvre l'adresse `https://...ts.net` obtenue, puis installe MachineVision depuis le menu du navigateur : **Installer l'application** sur Android ou **Partager > Sur l'écran d'accueil** sur iPhone.
+
+L'application est préparée avec un manifeste PWA et une icône ; elle s'ouvre en plein écran, mais l'analyse et les PDF nécessitent que le PC et ses services restent disponibles. La connexion Tailscale doit rester active sur le téléphone pour accéder à l'adresse privée.
+
 ## Ajouter les photos et les fiches
 
 Pour réentraîner le modèle, range des images dont tu as le droit d'utiliser sous `data/images/pompe/`, `data/images/compresseur/` et `data/images/convoyeur/`, puis lance depuis la racine :
